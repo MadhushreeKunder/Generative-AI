@@ -3,6 +3,7 @@ import "./App.css";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
+import { VideoInput } from "./Video/VideoInput";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
@@ -84,6 +85,7 @@ function App() {
 
   const config = {
     headers: { Authorization: `Bearer ${tokenClient}` },
+    params: { key: API_KEY },
   };
 
   function handleLoadData() {
@@ -92,6 +94,7 @@ function App() {
         `https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=${videoId}&key=${API_KEY}`,
       )
       .then((response) => {
+        console.log(response, "ress");
         setCaptions(response.data.items);
       })
       .catch((error) => {
@@ -105,39 +108,43 @@ function App() {
 
   const getTranscript = async (captionId, API_KEY) => {
     // Make a request to the YouTube Data API to get the transcript for the specified caption track
-
-    try {
-      const captionsData = await fetch(
+    // try {
+    //   const captionsData = await fetch(
+    //     `https://www.googleapis.com/youtube/v3/captions/${captionId}`,
+    //     {
+    //       method: "GET",
+    //       redirect_uri: "http://localhost:3000",
+    //       response_type: "token",
+    //       state: "pass-through value",
+    //       headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //       },
+    //     },
+    //   );
+    //   console.log(captionsData, "data captions");
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    axios
+      .get(
         `https://www.googleapis.com/youtube/v3/captions/${captionId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-      console.log(captionsData, "data captions");
-    } catch (error) {
-      console.error(error);
-    }
-
-    // axios
-    //   .get(
-    //     `https://www.googleapis.com/youtube/v3/captions/${captionId}?key=${API_KEY}`,
-    //     config,
-    //   )
-    //   .then((response) => {
-    //     const transcript = response.data.snippet.track;
-    //     console.log("Transcript:", transcript);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching transcript:", error);
-    //   });
+        config,
+      )
+      .then((response) => {
+        const transcript = response.data.snippet.track;
+        console.log("Transcript:", transcript);
+      })
+      .catch((error) => {
+        console.error(
+          "Error fetching transcript:",
+          error.response.data.error.message,
+        );
+      });
   };
 
   return (
     <div className="App">
-      <div id="signInDiv"></div>
+      {/* <div id="signInDiv"></div>
 
       {Object.keys(user).length !== 0 && (
         <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
@@ -151,7 +158,7 @@ function App() {
         </div>
       )}
       {/* <input type="text" onChange={handleInput}></input> */}
-      <button onClick={handleLoadData}>Load Data</button>
+      {/* <button onClick={handleLoadData}>Load Data</button>
       <h1>YouTube Video Captions</h1>
       <ul>
         {captions.map((caption) => (
@@ -162,7 +169,9 @@ function App() {
             </button>
           </li>
         ))}
-      </ul>
+      </ul>{" "}
+      */}
+      <VideoInput />
     </div>
   );
 }
