@@ -14,6 +14,16 @@ export const VideoInput = () => {
     );
   }, []);
 
+  function exportUserInfo(summary) {
+    const fileData = JSON.stringify(summary);
+    const blob = new Blob([fileData], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = "summary.txt";
+    link.href = url;
+    link.click();
+  }
+
   return (
     <div className="main">
       <div className="data-section">
@@ -25,14 +35,19 @@ export const VideoInput = () => {
         </div>
         <div className="video__summary--section">
           <div className="flex">
-            <button className="icon_button">
+            <button
+              className="icon_button"
+              onClick={() => {
+                exportUserInfo(summary);
+              }}
+            >
               <MdOutlineFileDownload />
             </button>
             <button
               className="icon_button"
               onClick={() => {
                 navigator.clipboard.writeText(summary);
-                toast("Copied!");
+                toast("Copied!", { autoClose: 300 });
               }}
             >
               <MdContentCopy />
