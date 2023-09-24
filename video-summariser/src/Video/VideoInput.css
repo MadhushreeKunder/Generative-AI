@@ -31,7 +31,7 @@ h1 {
 .video__input--area {
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 2rem;
 }
