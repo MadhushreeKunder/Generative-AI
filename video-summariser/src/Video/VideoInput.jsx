@@ -10,6 +10,16 @@ const data =
   "An apple is a round, edible fruit produced by an apple tree (Malus domestica). Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found. Apples have been grown for thousands of years in Asia and Europe and were introduced to North America by European colonists. Apples have religious and mythological significance in many cultures, including Norse, Greek, and European Christian tradition.Apples grown from seed tend to be very different from those of their parents, and the resultant fruit frequently lacks desired characteristics. Generally, apple cultivars are propagated by clonal grafting onto rootstocks.   ";
 
 export const VideoInput = () => {
+  const [inputVideoURL, setInputVideoURL] = useState("");
+  const [videoDetails, setVideoDetails] = useState({});
+  const [videoThumbnail, setVideoThumbnail] = useState();
+
+  //   https://img.youtube.com/vi/Sxxw3qtb3_g/maxresdefault.jpg
+
+  //   const videoThumbnaill = axios.get(
+  //     `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+  //   );
+
   const handleDownload = () => {
     const updatedText = document.querySelector("p").textContent;
 
@@ -27,14 +37,49 @@ export const VideoInput = () => {
     toast("Copied!", { autoClose: 300 });
   };
 
+  console.log(inputVideoURL);
+
+  // Usage
+
+  const getVideoSummary = () => {
+    if (inputVideoURL.length > 0) {
+      const result = axios
+        .get(
+          `https://narrowexoticprofile.kavuuuu.repl.co/transcript?videoURL=${inputVideoURL}`,
+        )
+        .then((res) => {
+          console.log(res);
+          setVideoDetails(res.data);
+        });
+    }
+  };
+
+  useEffect(() => {
+    setVideoThumbnail(
+      `https://img.youtube.com/vi/${videoDetails.videoId}/maxresdefault.jpg`,
+    );
+    // axios.get(
+    //   `https://img.youtube.com/vi/${videoDetails.videoId}/maxresdefault.jpg`,
+    // ).then()
+  }, [videoDetails]);
+
   return (
     <div className="main">
       <div className="data-section">
-        <h1 className="notranslate">In a nutshell</h1>
+        <h1 className="notranslate heading">In a nutshell</h1>
         <div className="video__input--area">
-          <input type="text" className="video__input notranslate"></input>
+          <input
+            type="text"
+            className="video__input notranslate"
+            onChange={(e) => setInputVideoURL(e.target.value.trim())}
+            placeholder="Enter Youtube video link"
+          />
 
-          <button className="video__button--summary notranslate">
+          <button
+            className="video__button--summary notranslate"
+            onClick={getVideoSummary}
+            disabled={inputVideoURL.length === 0}
+          >
             Get Summary
           </button>
         </div>

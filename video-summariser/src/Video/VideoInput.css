@@ -7,6 +7,10 @@
   /* background-image: url(https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif); */
 }
 
+.heading {
+  margin-bottom: 1rem;
+}
+
 .data-section {
   height: 100vh;
   max-width: 700px;
@@ -28,7 +32,7 @@ h1 {
 
 .video__input {
   height: 3rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   padding: 0 1rem;
   flex-basis: 70%;
 }
@@ -44,11 +48,13 @@ h1 {
 
 .video__summary {
   text-align: left;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .video__summary--section {
   background-color: white;
-  padding: 1rem;
+  padding: 1rem 2rem;
 }
 
 .icon_button {
@@ -67,4 +73,19 @@ h1 {
 .flex {
   display: flex;
   justify-content: flex-end;
+}
+
+.video__summary::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+/* Track */
+.video__summary::-webkit-scrollbar-track {
+  background: rgb(208, 208, 208);
+}
+
+/* Handle */
+.video__summary::-webkit-scrollbar-thumb {
+  background: rgb(53, 53, 100);
+  border-radius: 10px;
 }
