@@ -3,12 +3,18 @@
 }
 
 .main {
-  background-color: wheat;
-  /* background-image: url(https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif); */
+  background-color: #f0e8f9;
+  height: 100vh;
 }
 
 .heading {
-  margin-bottom: 1rem;
+  color: #7371fc;
+  font-size: 4rem;
+}
+
+.sub-heading {
+  color: #a594f9;
+  margin-bottom: 4rem;
 }
 
 .data-section {
@@ -35,21 +41,28 @@ h1 {
   font-size: 1rem;
   padding: 0 1rem;
   flex-basis: 70%;
+  font-family: "Poppins", sans-serif;
+  outline: 2px solid #7371fc;
+  border-radius: 5px;
+  border: none;
 }
 
 .video__button--summary {
   height: 3rem;
   font-size: 1rem;
   padding: 0 1rem;
-  background-color: #512a2a;
+  background-color: #7371fc;
   color: white;
   flex-basis: 25%;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
 }
 
 .video__summary {
   text-align: left;
   max-height: 60vh;
   overflow-y: auto;
+  color: rgb(53 44 91);
 }
 
 .video__summary--section {

@@ -66,7 +66,8 @@ export const VideoInput = () => {
   return (
     <div className="main">
       <div className="data-section">
-        <h1 className="notranslate heading">In a nutshell</h1>
+        <h1 className="notranslate heading">In a Nutshell!</h1>
+        <div className="sub-heading"> Videos Summarized with AI Wizardry</div>
         <div className="video__input--area">
           <input
             type="text"
@@ -83,19 +84,21 @@ export const VideoInput = () => {
             Get Summary
           </button>
         </div>
-        <div className="video__summary--section">
-          <div className="flex">
-            <div id="google_element"></div>
+        {data.length > 0 && (
+          <div className="video__summary--section">
+            <div className="flex">
+              <div id="google_element"></div>
 
-            <button className="icon_button" onClick={handleDownload}>
-              <MdOutlineFileDownload />
-            </button>
-            <button className="icon_button" onClick={handleCopy}>
-              <MdContentCopy />
-            </button>
+              <button className="icon_button" onClick={handleDownload}>
+                <MdOutlineFileDownload />
+              </button>
+              <button className="icon_button" onClick={handleCopy}>
+                <MdContentCopy />
+              </button>
+            </div>
+            <p className="video__summary">{data}</p>
           </div>
-          <p className="video__summary">{data}</p>
-        </div>
+        )}
       </div>
       <ToastContainer className="notranslate" />
     </div>
