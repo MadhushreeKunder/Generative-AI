@@ -14,7 +14,7 @@ export const VideoInput = () => {
     );
   }, []);
 
-  function exportUserInfo(summary) {
+  function handleDownload(summary) {
     const fileData = JSON.stringify(summary);
     const blob = new Blob([fileData], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -38,7 +38,7 @@ export const VideoInput = () => {
             <button
               className="icon_button"
               onClick={() => {
-                exportUserInfo(summary);
+                handleDownload(summary);
               }}
             >
               <MdOutlineFileDownload />
