@@ -67,7 +67,9 @@ export const VideoInput = () => {
     <div className="main">
       <div className="data-section">
         <h1 className="notranslate heading">In a Nutshell!</h1>
-        <div className="sub-heading"> Videos Summarized with AI Wizardry</div>
+        <div className="notranslate sub-heading">
+          Videos Summarized with AI Wizardry
+        </div>
         <div className="video__input--area">
           <input
             type="text"
@@ -95,6 +97,14 @@ export const VideoInput = () => {
               <button className="icon_button" onClick={handleCopy}>
                 <MdContentCopy />
               </button>
+            </div>
+            <div className="video__details">
+              <img
+                src={videoThumbnail}
+                alt={videoDetails.videoTitle}
+                className="video__thumbnail"
+              />
+              <div className="video__title">{videoDetails.videoTitle}</div>
             </div>
             <p className="video__summary">{data}</p>
           </div>

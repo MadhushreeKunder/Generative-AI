@@ -14,7 +14,7 @@
 
 .sub-heading {
   color: #a594f9;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .data-section {
@@ -40,7 +40,7 @@ h1 {
   height: 3rem;
   font-size: 1rem;
   padding: 0 1rem;
-  flex-basis: 70%;
+  flex-basis: 75%;
   font-family: "Poppins", sans-serif;
   outline: 2px solid #7371fc;
   border-radius: 5px;
@@ -53,7 +53,6 @@ h1 {
   padding: 0 1rem;
   background-color: #7371fc;
   color: white;
-  flex-basis: 25%;
   border-radius: 5px;
   font-family: "Poppins", sans-serif;
 }
@@ -86,6 +85,7 @@ h1 {
 .flex {
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
 }
 
 .video__summary::-webkit-scrollbar {
@@ -101,4 +101,26 @@ h1 {
 .video__summary::-webkit-scrollbar-thumb {
   background: rgb(53, 53, 100);
   border-radius: 10px;
+}
+
+.video__details {
+  display: flex;
+  justify-content: space-between;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  padding: 1rem 0.5rem;
+}
+
+.video__thumbnail {
+  width: 10rem;
+  margin-right: 1rem;
+}
+
+.video__title {
+  text-align: left;
+  color: #a594f9;
+}
+
+.summary__title {
+  text-align: left;
+  margin-top: 1.5rem;
 }
