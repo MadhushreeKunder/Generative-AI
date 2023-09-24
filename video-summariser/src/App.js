@@ -7,12 +7,15 @@ import jwt_decode from "jwt-decode";
 function App() {
   const [captions, setCaptions] = useState([]);
   const [user, setUser] = useState({});
+  const [token, setToken] = useState();
 
   const apiKey = "AIzaSyBcdWHs9aLKJE2wP7X3GX8IsTAp-WLV3I0";
   const videoId = "dWqNgzZwVJQ";
 
   // Oath 0.2---------------------------------
   function handleCallbackResponse(response) {
+    console.log(response.credential);
+    setToken(response.credential);
     let userObject = jwt_decode(response.credential);
     setUser(userObject);
     document.getElementById("signInDiv").hidden = true;
@@ -26,7 +29,8 @@ function App() {
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
-      client_id: process.env.REACT_APP_CLIENT_ID,
+      client_id: `${process.env.REACT_APP_CLIENT_ID}`,
+      // "840174794170-735bmhplqvqbrv4bll4ru2sh2qms2ube.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
 
@@ -52,6 +56,12 @@ function App() {
   //     });
   // }, []);
 
+  // https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
   function handleLoadData() {
     axios
       .get(
@@ -76,6 +86,7 @@ function App() {
     axios
       .get(
         `https://www.googleapis.com/youtube/v3/captions/${captionId}?key=${apiKey}`,
+        // config,
       )
       .then((response) => {
         const transcript = response.data.snippet.track;
