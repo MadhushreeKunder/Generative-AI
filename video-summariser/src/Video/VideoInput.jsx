@@ -4,60 +4,55 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { MdContentCopy } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const data =
-  "An apple is a round, edible fruit produced by an apple tree (Malus domestica). Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found. Apples have been grown for thousands of years in Asia and Europe and were introduced to North America by European colonists. Apples have religious and mythological significance in many cultures, including Norse, Greek, and European Christian tradition.Apples grown from seed tend to be very different from those of their parents, and the resultant fruit frequently lacks desired characteristics. Generally, apple cultivars are propagated by clonal grafting onto rootstocks. Apple trees grown without rootstocks tend to be larger and much slower to fruit after planting. Rootstocks are used to control the speed of growth and the size of the resulting tree, allowing for easier harvesting.There are more than 7,500 cultivars of apples. Different cultivars are bred for various tastes and uses, including cooking, eating raw, and cider production. Trees and fruit are prone to fungal, bacterial, and pest problems, which can be controlled by a number of organic and non-organic means. In 2010, the fruit's genome was sequenced as part of research on disease control and selective breeding in apple production.";
+  "An apple is a round, edible fruit produced by an apple tree (Malus domestica). Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found. Apples have been grown for thousands of years in Asia and Europe and were introduced to North America by European colonists. Apples have religious and mythological significance in many cultures, including Norse, Greek, and European Christian tradition.Apples grown from seed tend to be very different from those of their parents, and the resultant fruit frequently lacks desired characteristics. Generally, apple cultivars are propagated by clonal grafting onto rootstocks.   ";
 
 export const VideoInput = () => {
-  const [summary, setSummary] = useState("");
+  const handleDownload = () => {
+    const updatedText = document.querySelector("p").textContent;
 
-  useEffect(() => {
-    setSummary(data);
-  }, []);
-
-  function handleDownload(summary) {
-    const fileData = JSON.stringify(summary);
+    const fileData = JSON.stringify(updatedText);
     const blob = new Blob([fileData], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.download = "summary.txt";
     link.href = url;
     link.click();
-  }
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(document.querySelector("p").textContent);
+    toast("Copied!", { autoClose: 300 });
+  };
 
   return (
     <div className="main">
       <div className="data-section">
-        <h1>In a nutshell</h1>
+        <h1 className="notranslate">In a nutshell</h1>
         <div className="video__input--area">
-          <input type="text" className="video__input"></input>
+          <input type="text" className="video__input notranslate"></input>
 
-          <button className="video__button--summary">Get Summary</button>
+          <button className="video__button--summary notranslate">
+            Get Summary
+          </button>
         </div>
         <div className="video__summary--section">
           <div className="flex">
-            <button
-              className="icon_button"
-              onClick={() => {
-                handleDownload(summary);
-              }}
-            >
+            <div id="google_element"></div>
+
+            <button className="icon_button" onClick={handleDownload}>
               <MdOutlineFileDownload />
             </button>
-            <button
-              className="icon_button"
-              onClick={() => {
-                navigator.clipboard.writeText(summary);
-                toast("Copied!", { autoClose: 300 });
-              }}
-            >
+            <button className="icon_button" onClick={handleCopy}>
               <MdContentCopy />
             </button>
           </div>
-          <p className="video__summary">{summary}</p>
+          <p className="video__summary">{data}</p>
         </div>
       </div>
-      <ToastContainer />
+      <ToastContainer className="notranslate" />
     </div>
   );
 };
