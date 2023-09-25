@@ -60,18 +60,9 @@ export const VideoInput = () => {
   }
 
   const getVideoSummary = () => {
-    // if (inputVideoURL.length > 0) {
-    //   const result = axios
-    //     .get(
-    //       `https://narrowexoticprofile.kavuuuu.repl.co/transcript?videoURL=${inputVideoURL}`
-    //     )
-    //     .then((res) => {
-    //       console.log(res);
-    //       setVideoDetails(res.data);
-    //     });
-    // }
-
     if (inputVideoURL.length > 0) {
+      toast("Loading...", { autoClose: 1000 });
+
       axios
         .get(
           `https://narrowexoticprofile.kavuuuu.repl.co/transcript?videoURL=${inputVideoURL}`,
@@ -81,12 +72,13 @@ export const VideoInput = () => {
           const responseData = response.data.data
             ?.map((singleLine) => singleLine.text)
             .toString();
-          console.log("resssss data", responseData);
           setTranscriptData(responseData);
 
           summarizeText(responseData);
+          toast("Summarised!", { autoClose: 300 });
         })
         .catch((error) => {
+          toast("Not a valid Youtube link", { autoClose: 1000 });
           console.error("An error occurred:", error);
         });
     }
