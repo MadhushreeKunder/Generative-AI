@@ -5,12 +5,13 @@ import { MdContentCopy } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { OpenAI } from "openai";
 
 export const VideoInput = () => {
   const [inputVideoURL, setInputVideoURL] = useState("");
   const [transcriptData, setTranscriptData] = useState(null);
   const [summary, setSummary] = useState("");
-  const [explainType, setExplainType] = useState("explainLikeIamFive");
+  const [explainType, setExplainType] = useState("kid");
   const [videoDetails, setVideoDetails] = useState({});
   const [videoThumbnail, setVideoThumbnail] = useState();
   const [wordCount, setWordCount] = useState(20);
@@ -43,20 +44,21 @@ export const VideoInput = () => {
   async function summarizeText(captionsData) {
     const promptMessage = `Write a summary of the text in a single paragraph below providing explaination it as if to a ${explainType} within maximum of
   ${wordCount} words : ${captionsData}`;
-    console.log("final");
-    // const openai = new OpenAI({
-    //   apiKey: process.env.REACT_APP_JWT_SECRET,
-    //   dangerouslyAllowBrowser: true,
-    // });
-    //   openai.chat.completions
-    //     .create({
-    //       model: "gpt-3.5-turbo",
-    //       messages: [{ role: "user", content: promptMessage }],
-    //       max_tokens: 50,
-    //     })
-    //     .then((res) => {
-    //       setSummary(res.choices[0].message.content);
-    //     });
+
+    const openai = new OpenAI({
+      apiKey: process.env.REACT_APP_JWT_SECRET,
+      dangerouslyAllowBrowser: true,
+    });
+    openai.chat.completions
+      .create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: promptMessage }],
+        max_tokens: 50,
+      })
+      .then((res) => {
+        setSummary(res.choices[0].message.content);
+        toast("Summarised!", { autoClose: 300 });
+      });
   }
 
   const getVideoSummary = () => {
@@ -75,7 +77,6 @@ export const VideoInput = () => {
           setTranscriptData(responseData);
 
           summarizeText(responseData);
-          toast("Summarised!", { autoClose: 300 });
         })
         .catch((error) => {
           toast("Not a valid Youtube link", { autoClose: 1000 });
@@ -88,9 +89,6 @@ export const VideoInput = () => {
     setVideoThumbnail(
       `https://img.youtube.com/vi/${videoDetails.videoId}/maxresdefault.jpg`,
     );
-    // axios.get(
-    //   `https://img.youtube.com/vi/${videoDetails.videoId}/maxresdefault.jpg`,
-    // ).then()
   }, [transcriptData]);
 
   return (
@@ -117,86 +115,83 @@ export const VideoInput = () => {
           </button>
         </div>
 
-        {
-          <div
-            className="video__summary--section"
-            style={{
-              visibility:
-                transcriptData && videoThumbnail ? "visible" : "hidden",
-            }}
-          >
-            <div className="flex flex-wrap video__customisations">
-              <div className="flex flex-wrap">
-                <div className="customise_dropdown">
-                  <span className="notranslate">Level: </span>
-                  <select
-                    value={explainType}
-                    onChange={handleExplainTypeChange}
+        <div
+          className="video__summary--section"
+          style={{
+            visibility: summary && videoThumbnail ? "visible" : "hidden",
+          }}
+        >
+          <div className="flex flex-wrap video__customisations">
+            <div className="flex flex-wrap">
+              <div className="customise_dropdown">
+                <span className="notranslate">Level: </span>
+                <select
+                  value={explainType}
+                  onChange={handleExplainTypeChange}
+                  className="notranslate customise_dropdown--option"
+                >
+                  <option
+                    value="kid"
                     className="notranslate customise_dropdown--option"
                   >
-                    <option
-                      value="kid"
-                      className="notranslate customise_dropdown--option"
-                    >
-                      Kid
-                    </option>
-                    <option
-                      value="expert"
-                      className="notranslate customise_dropdown--option"
-                    >
-                      Expert
-                    </option>
-                  </select>
-                </div>
-                <div className="customise_dropdown">
-                  <span className="notranslate">Choose Word Count: </span>
-                  <select
-                    value={wordCount}
-                    onChange={handleWordCountChange}
+                    Kid
+                  </option>
+                  <option
+                    value="expert"
                     className="notranslate customise_dropdown--option"
                   >
-                    <option
-                      value={20}
-                      className="notranslate customise_dropdown--option"
-                    >
-                      Short
-                    </option>
-                    <option
-                      value={50}
-                      className="notranslate customise_dropdown--option"
-                    >
-                      Long
-                    </option>
-                  </select>
-                </div>
+                    Expert
+                  </option>
+                </select>
               </div>
-
-              <div className="flex">
-                <div id="google_element"></div>
-                <button className="icon_button" onClick={handleDownload}>
-                  <MdOutlineFileDownload />
-                </button>
-                <button className="icon_button" onClick={handleCopy}>
-                  <MdContentCopy />
-                </button>
+              <div className="customise_dropdown">
+                <span className="notranslate">Choose Word Count: </span>
+                <select
+                  value={wordCount}
+                  onChange={handleWordCountChange}
+                  className="notranslate customise_dropdown--option"
+                >
+                  <option
+                    value={20}
+                    className="notranslate customise_dropdown--option"
+                  >
+                    Short
+                  </option>
+                  <option
+                    value={50}
+                    className="notranslate customise_dropdown--option"
+                  >
+                    Long
+                  </option>
+                </select>
               </div>
             </div>
 
-            <div>
-              <div className="video__details">
-                <img
-                  src={videoThumbnail}
-                  alt={videoDetails.videoTitle}
-                  className="video__thumbnail "
-                />
-                <div className="notranslate video__title">
-                  {videoDetails.videoTitle}
-                </div>
-              </div>
-              <p className="video__summary">{transcriptData}</p>
+            <div className="flex">
+              <div id="google_element"></div>
+              <button className="icon_button" onClick={handleDownload}>
+                <MdOutlineFileDownload />
+              </button>
+              <button className="icon_button" onClick={handleCopy}>
+                <MdContentCopy />
+              </button>
             </div>
           </div>
-        }
+
+          <div>
+            <div className="video__details">
+              <img
+                src={videoThumbnail}
+                alt={videoDetails.videoTitle}
+                className="video__thumbnail "
+              />
+              <div className="notranslate video__title">
+                {videoDetails.videoTitle}
+              </div>
+            </div>
+            <p className="video__summary">{summary}</p>
+          </div>
+        </div>
       </div>
       <ToastContainer className="notranslate" />
     </div>
