@@ -34,7 +34,6 @@ h1 {
 
 .video__input--area {
   display: flex;
-  /* gap: 1rem; */
   justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 2rem;
@@ -54,7 +53,6 @@ h1 {
 .video__button--summary {
   height: 3rem;
   font-size: 1rem;
-  padding: 0 2rem;
   background-color: var(--purple-500);
   color: white;
   border-radius: 5px;
