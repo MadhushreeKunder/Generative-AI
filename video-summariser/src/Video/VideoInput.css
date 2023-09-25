@@ -2,18 +2,28 @@
   box-sizing: border-box;
 }
 
+body {
+  height: 100%;
+  background-color: var(--purple-100);
+}
+
 .main {
-  background-color: wheat;
-  /* background-image: url(https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif); */
+  height: 100vh;
 }
 
 .heading {
-  margin-bottom: 1rem;
+  color: var(--purple-500);
+  font-size: 4rem;
+}
+
+.sub-heading {
+  color: var(--purple-300);
+  margin-bottom: 3rem;
 }
 
 .data-section {
   height: 100vh;
-  max-width: 700px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 1rem;
 }
@@ -24,8 +34,8 @@ h1 {
 
 .video__input--area {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
+  /* gap: 1rem; */
+  justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 2rem;
 }
@@ -34,22 +44,30 @@ h1 {
   height: 3rem;
   font-size: 1rem;
   padding: 0 1rem;
-  flex-basis: 70%;
+  flex-basis: 75%;
+  font-family: "Poppins", sans-serif;
+  outline: 2px solid var(--purple-500);
+  border-radius: 5px;
+  border: none;
 }
 
 .video__button--summary {
   height: 3rem;
   font-size: 1rem;
-  padding: 0 1rem;
-  background-color: #512a2a;
+  padding: 0 2rem;
+  background-color: var(--purple-500);
   color: white;
-  flex-basis: 25%;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  flex-basis: 20%;
 }
 
 .video__summary {
   text-align: left;
   max-height: 60vh;
   overflow-y: auto;
+  color: var(--purple-700);
 }
 
 .video__summary--section {
@@ -66,13 +84,14 @@ h1 {
 }
 
 .icon_button:hover {
-  background-color: rgb(208, 208, 208);
+  background-color: var(--gray-50);
   border-radius: 4px;
 }
 
 .flex {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .video__summary::-webkit-scrollbar {
@@ -81,11 +100,68 @@ h1 {
 
 /* Track */
 .video__summary::-webkit-scrollbar-track {
-  background: rgb(208, 208, 208);
+  background: var(--grey-100);
 }
 
 /* Handle */
 .video__summary::-webkit-scrollbar-thumb {
-  background: rgb(53, 53, 100);
+  background: var(--purple-750);
   border-radius: 10px;
+}
+
+.video__details {
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  padding: 1rem 0.5rem;
+}
+
+.video__thumbnail {
+  width: 10rem;
+  margin-right: 1rem;
+}
+
+.video__title {
+  text-align: left;
+  color: var(--purple-300);
+}
+
+.summary__title {
+  text-align: left;
+  margin-top: 1.5rem;
+}
+
+.customise_dropdown {
+  display: flex;
+  color: var(--purple-700);
+  align-items: center;
+}
+
+.customise_dropdown--option {
+  font-family: "Poppins", sans-serif;
+  outline: 1px solid var(--purple-500);
+  border: none;
+  height: fit-content;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 600px) {
+  .video__input--area {
+    justify-content: center;
+  }
+
+  .video__button--summary {
+    margin-top: 1rem;
+    width: 10rem;
+    flex-basis: 60%;
+  }
+
+  .video__customisations {
+    margin-bottom: 1rem;
+  }
 }

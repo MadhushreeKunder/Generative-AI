@@ -5,12 +5,13 @@ import { MdContentCopy } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { OpenAI } from "openai";
 
 export const VideoInput = () => {
   const [inputVideoURL, setInputVideoURL] = useState("");
   const [transcriptData, setTranscriptData] = useState(null);
   const [summary, setSummary] = useState("");
-  const [explainType, setExplainType] = useState("explainLikeIamFive");
+  const [explainType, setExplainType] = useState("kid");
   const [videoDetails, setVideoDetails] = useState({});
   const [videoThumbnail, setVideoThumbnail] = useState();
   const [wordCount, setWordCount] = useState(20);
@@ -41,67 +42,62 @@ export const VideoInput = () => {
   };
 
   async function summarizeText(captionsData) {
-    const promptMessage = `Write a summary of the text in a single paragraph below providing explaination it as if to a ${explainType} within maximum of 
+    const promptMessage = `Write a summary of the text in a single paragraph below providing explaination it as if to a ${explainType} within maximum of
   ${wordCount} words : ${captionsData}`;
-    console.log("final");
-    // const openai = new OpenAI({
-    //   apiKey: process.env.REACT_APP_JWT_SECRET,
-    //   dangerouslyAllowBrowser: true,
-    // });
-    //   openai.chat.completions
-    //     .create({
-    //       model: "gpt-3.5-turbo",
-    //       messages: [{ role: "user", content: promptMessage }],
-    //       max_tokens: 50,
-    //     })
-    //     .then((res) => {
-    //       setSummary(res.choices[0].message.content);
-    //     });
+
+    const openai = new OpenAI({
+      apiKey: process.env.REACT_APP_JWT_SECRET,
+      dangerouslyAllowBrowser: true,
+    });
+    openai.chat.completions
+      .create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: promptMessage }],
+        max_tokens: 50,
+      })
+      .then((res) => {
+        setSummary(res.choices[0].message.content);
+        toast("Summarised!", { autoClose: 300 });
+      });
   }
 
   const getVideoSummary = () => {
-    // if (inputVideoURL.length > 0) {
-    //   const result = axios
-    //     .get(
-    //       `https://narrowexoticprofile.kavuuuu.repl.co/transcript?videoURL=${inputVideoURL}`
-    //     )
-    //     .then((res) => {
-    //       console.log(res);
-    //       setVideoDetails(res.data);
-    //     });
-    // }
+    if (inputVideoURL.length > 0) {
+      toast("Loading...", { autoClose: 1000 });
 
-    axios
-      .get(
-        `https://narrowexoticprofile.kavuuuu.repl.co/transcript?videoURL=${inputVideoURL}`
-      )
-      .then((response) => {
-        const responseData = response.data.data
-          ?.map((singleLine) => singleLine.text)
-          .toString();
-        console.log("resssss data", responseData);
-        setTranscriptData(responseData);
+      axios
+        .get(
+          `https://narrowexoticprofile.kavuuuu.repl.co/transcript?videoURL=${inputVideoURL}`,
+        )
+        .then((response) => {
+          setVideoDetails(response.data);
+          const responseData = response.data.data
+            ?.map((singleLine) => singleLine.text)
+            .toString();
+          setTranscriptData(responseData);
 
-        summarizeText(responseData);
-      })
-      .catch((error) => {
-        console.error("An error occurred:", error);
-      });
+          summarizeText(responseData);
+        })
+        .catch((error) => {
+          toast("Not a valid Youtube link", { autoClose: 1000 });
+          console.error("An error occurred:", error);
+        });
+    }
   };
 
   useEffect(() => {
     setVideoThumbnail(
-      `https://img.youtube.com/vi/${videoDetails.videoId}/maxresdefault.jpg`
+      `https://img.youtube.com/vi/${videoDetails.videoId}/maxresdefault.jpg`,
     );
-    // axios.get(
-    //   `https://img.youtube.com/vi/${videoDetails.videoId}/maxresdefault.jpg`,
-    // ).then()
-  }, [videoDetails]);
+  }, [transcriptData]);
 
   return (
     <div className="main">
       <div className="data-section">
-        <h1 className="notranslate heading">In a nutshell</h1>
+        <h1 className="notranslate heading">In a Nutshell!</h1>
+        <div className="notranslate sub-heading">
+          Videos Summarized with AI Wizardry
+        </div>
         <div className="video__input--area">
           <input
             type="text"
@@ -119,42 +115,60 @@ export const VideoInput = () => {
           </button>
         </div>
 
-        <div>
-          <p className="notranslate">Level:</p>
-          <select
-            value={explainType}
-            onChange={handleExplainTypeChange}
-            className="notranslate"
-          >
-            <option value="kid" className="notranslate">
-              Kid
-            </option>
-            <option value="expert" className="notranslate">
-              Expert
-            </option>
-          </select>
-        </div>
-        <div>
-          <p className="notranslate">Choose Word Count:</p>
-          <select
-            value={wordCount}
-            onChange={handleWordCountChange}
-            className="notranslate"
-          >
-            <option value={20} className="notranslate">
-              Short
-            </option>
-            <option value={50} className="notranslate">
-              Long{" "}
-            </option>
-          </select>
-        </div>
+        <div
+          className="video__summary--section"
+          style={{
+            visibility: summary && videoThumbnail ? "visible" : "hidden",
+          }}
+        >
+          <div className="flex flex-wrap video__customisations">
+            <div className="flex flex-wrap">
+              <div className="customise_dropdown">
+                <span className="notranslate">Level: </span>
+                <select
+                  value={explainType}
+                  onChange={handleExplainTypeChange}
+                  className="notranslate customise_dropdown--option"
+                >
+                  <option
+                    value="kid"
+                    className="notranslate customise_dropdown--option"
+                  >
+                    Kid
+                  </option>
+                  <option
+                    value="expert"
+                    className="notranslate customise_dropdown--option"
+                  >
+                    Expert
+                  </option>
+                </select>
+              </div>
+              <div className="customise_dropdown">
+                <span className="notranslate">Choose Word Count: </span>
+                <select
+                  value={wordCount}
+                  onChange={handleWordCountChange}
+                  className="notranslate customise_dropdown--option"
+                >
+                  <option
+                    value={20}
+                    className="notranslate customise_dropdown--option"
+                  >
+                    Short
+                  </option>
+                  <option
+                    value={50}
+                    className="notranslate customise_dropdown--option"
+                  >
+                    Long
+                  </option>
+                </select>
+              </div>
+            </div>
 
-        {transcriptData && (
-          <div className="video__summary--section">
             <div className="flex">
               <div id="google_element"></div>
-
               <button className="icon_button" onClick={handleDownload}>
                 <MdOutlineFileDownload />
               </button>
@@ -162,9 +176,22 @@ export const VideoInput = () => {
                 <MdContentCopy />
               </button>
             </div>
-            <p className="video__summary">{transcriptData}</p>
           </div>
-        )}
+
+          <div>
+            <div className="video__details">
+              <img
+                src={videoThumbnail}
+                alt={videoDetails.videoTitle}
+                className="video__thumbnail "
+              />
+              <div className="notranslate video__title">
+                {videoDetails.videoTitle}
+              </div>
+            </div>
+            <p className="video__summary">{summary}</p>
+          </div>
+        </div>
       </div>
       <ToastContainer className="notranslate" />
     </div>
