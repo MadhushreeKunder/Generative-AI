@@ -117,10 +117,16 @@ export const VideoInput = () => {
           </button>
         </div>
 
-        {transcriptData && videoThumbnail && (
-          <div className="video__summary--section">
-            <div className="flex">
-              <div className="flex">
+        {
+          <div
+            className="video__summary--section"
+            style={{
+              visibility:
+                transcriptData && videoThumbnail ? "visible" : "hidden",
+            }}
+          >
+            <div className="flex flex-wrap video__customisations">
+              <div className="flex flex-wrap">
                 <div className="customise_dropdown">
                   <span className="notranslate">Level: </span>
                   <select
@@ -165,7 +171,7 @@ export const VideoInput = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="flex">
                 <div id="google_element"></div>
                 <button className="icon_button" onClick={handleDownload}>
                   <MdOutlineFileDownload />
@@ -190,7 +196,7 @@ export const VideoInput = () => {
               <p className="video__summary">{transcriptData}</p>
             </div>
           </div>
-        )}
+        }
       </div>
       <ToastContainer className="notranslate" />
     </div>
