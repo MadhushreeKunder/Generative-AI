@@ -71,6 +71,9 @@ export const VideoInput = () => {
         )
         .then((response) => {
           setVideoDetails(response.data);
+          setVideoThumbnail(
+            `https://img.youtube.com/vi/${response.data.videoId}/0.jpg`,
+          );
           const responseData = response.data.data
             ?.map((singleLine) => singleLine.text)
             .toString();
@@ -84,12 +87,6 @@ export const VideoInput = () => {
         });
     }
   };
-
-  useEffect(() => {
-    setVideoThumbnail(
-      `https://img.youtube.com/vi/${videoDetails.videoId}/maxresdefault.jpg`,
-    );
-  }, [transcriptData]);
 
   return (
     <div className="main">
