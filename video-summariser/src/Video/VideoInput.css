@@ -3,17 +3,17 @@
 }
 
 .main {
-  background-color: #f0e8f9;
+  background-color: var(--purple-100);
   height: 100vh;
 }
 
 .heading {
-  color: #7371fc;
+  color: var(--purple-500);
   font-size: 4rem;
 }
 
 .sub-heading {
-  color: #a594f9;
+  color: var(--purple-300);
   margin-bottom: 3rem;
 }
 
@@ -42,7 +42,7 @@ h1 {
   padding: 0 1rem;
   flex-basis: 75%;
   font-family: "Poppins", sans-serif;
-  outline: 2px solid #7371fc;
+  outline: 2px solid var(--purple-500);
   border-radius: 5px;
   border: none;
 }
@@ -51,17 +51,18 @@ h1 {
   height: 3rem;
   font-size: 1rem;
   padding: 0 1rem;
-  background-color: #7371fc;
+  background-color: var(--purple-500);
   color: white;
   border-radius: 5px;
   font-family: "Poppins", sans-serif;
+  cursor: pointer;
 }
 
 .video__summary {
   text-align: left;
   max-height: 60vh;
   overflow-y: auto;
-  color: rgb(53 44 91);
+  color: var(--purple-700);
 }
 
 .video__summary--section {
@@ -78,13 +79,13 @@ h1 {
 }
 
 .icon_button:hover {
-  background-color: rgb(208, 208, 208);
+  background-color: var(--gray-50);
   border-radius: 4px;
 }
 
 .flex {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 10px;
 }
 
@@ -94,12 +95,12 @@ h1 {
 
 /* Track */
 .video__summary::-webkit-scrollbar-track {
-  background: rgb(208, 208, 208);
+  background: var(--grey-100);
 }
 
 /* Handle */
 .video__summary::-webkit-scrollbar-thumb {
-  background: rgb(53, 53, 100);
+  background: var(--purple-750);
   border-radius: 10px;
 }
 
@@ -117,10 +118,26 @@ h1 {
 
 .video__title {
   text-align: left;
-  color: #a594f9;
+  color: var(--purple-300);
 }
 
 .summary__title {
   text-align: left;
   margin-top: 1.5rem;
+}
+
+.customise_dropdown {
+  display: flex;
+  color: var(--purple-700);
+  align-items: center;
+}
+
+.customise_dropdown--option {
+  font-family: "Poppins", sans-serif;
+  outline: 1px solid var(--purple-500);
+  border: none;
+  height: fit-content;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
 }
