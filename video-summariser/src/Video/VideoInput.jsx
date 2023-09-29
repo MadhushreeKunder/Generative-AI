@@ -42,7 +42,7 @@ export const VideoInput = () => {
   };
 
   async function summarizeText(captionsData) {
-    const promptMessage = `Write a summary of the text in a single paragraph below providing explaination it as if to a ${explainType} within maximum of
+    const promptMessage = `Write a proper short summary, starting with the video is about and continue with summary of the provided text. Summarise it as if explaining to a ${explainType} within maximum of
   ${wordCount} words : ${captionsData}`;
 
     const openai = new OpenAI({
@@ -67,12 +67,12 @@ export const VideoInput = () => {
 
       axios
         .get(
-          `https://narrowexoticprofile.kavuuuu.repl.co/transcript?videoURL=${inputVideoURL}`,
+          `https://narrowexoticprofile.kavuuuu.repl.co/transcript?videoURL=${inputVideoURL}`
         )
         .then((response) => {
           setVideoDetails(response.data);
           setVideoThumbnail(
-            `https://img.youtube.com/vi/${response.data.videoId}/0.jpg`,
+            `https://img.youtube.com/vi/${response.data.videoId}/0.jpg`
           );
           const responseData = response.data.data
             ?.map((singleLine) => singleLine.text)
